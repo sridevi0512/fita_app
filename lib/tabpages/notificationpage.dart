@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fita_app/main.dart';
+import 'package:fita_app/notificationClickedPage.dart';
 import 'package:fita_app/utils/apiUrl.dart';
 import 'package:fita_app/utils/constants.dart';
 import 'package:fita_app/utils/preference.dart';
@@ -28,6 +29,8 @@ class _NotificationClassState extends State<NotificationClass> {
   bool toVisible = false;
   bool toVisiblemsg = false;
   Color? colorSelectionValue;
+  String link = "";
+  String notify_message = "";
 
   @override
   void initState() {
@@ -38,6 +41,7 @@ class _NotificationClassState extends State<NotificationClass> {
 
   Future<String?> getNotificationList() async{
     notificationList.clear();
+    print(ApiUrl.BASE_COURSE_URL + ApiUrl.NOTIFICATION_LIST);
     final response = await http.post(
         Uri.parse(ApiUrl.BASE_COURSE_URL + ApiUrl.NOTIFICATION_LIST),
         headers: <String,String> {
@@ -159,6 +163,10 @@ class _NotificationClassState extends State<NotificationClass> {
             );
           },
           itemBuilder: (BuildContext context, int index) {
+            link = notificationList[index]['batch_meeting_details'];
+            notify_message = notificationList[index]['notify_message'];
+            print("link $link");
+            print("notify_msg $notify_message");
             var msg = notificationList[index]['course_complited_discription'];
             // msg.add(notificationList[index]['course_complited_discription']);
             print(msg);
@@ -172,120 +180,145 @@ class _NotificationClassState extends State<NotificationClass> {
             return Padding(
               padding: EdgeInsets.all(8),
               child: Card(
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        // height: MediaQuery.of(context).size.height * 0.15,
-                          width: MediaQuery.of(context).size.width,
-                        child: CachedNetworkImage(
-                          imageUrl: notificationList[index]['course_image'],
-                          fit: BoxFit.fill,
-                          placeholder: (context,url) => Container(),
-                          errorWidget: (context,url,error) => Container(),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.of(context)
+                        .push(MaterialPageRoute
+                      (builder: (BuildContext context) => NotificationClickedPage(
+                      "meet_link" : link,
+                      "notify_message" : notify_message
+                    )));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          // height: MediaQuery.of(context).size.height * 0.15,
+                            width: MediaQuery.of(context).size.width,
+                          child: CachedNetworkImage(
+                            imageUrl: notificationList[index]['course_image'],
+                            fit: BoxFit.fill,
+                            placeholder: (context,url) => Container(),
+                            errorWidget: (context,url,error) => Container(),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Batch Code: ' +notificationList[index]['batch_code'],
-                                maxLines: 1,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black
+                        SizedBox(height: 20),
+                        Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Batch Code: ' +notificationList[index]['batch_code'],
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 5),
-                              MergeSemantics(
-                                child: Row(
-                                  children: [
-                                    SizedBox(height: 5),
-                                    Flexible(
-                                      child:Text(
-                                        'Course Name: ' + notificationList[index]['course_name'],
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: true,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black
+                                SizedBox(height: 5),
+                                MergeSemantics(
+                                  child: Row(
+                                    children: [
+                                      SizedBox(height: 5),
+                                      Flexible(
+                                        child:Text(
+                                          'Course Name: ' + notificationList[index]['course_name'],
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                 notificationList[index]['notify_message'] + "Happy Learning!",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black
+                                SizedBox(height: 5),
+                                Text(
+                                   notificationList[index]['notify_message'] + "Happy Learning!",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black
+                                  ),
                                 ),
-                              ),
-                              Visibility(
-                                visible: this.toVisiblemsg,
-                                child: (msg!=null)?
-                                SizedBox(height: 5):
-                                SizedBox(height: 0),
-                              ),
-                              Visibility(
+                                Visibility(
                                   visible: this.toVisiblemsg,
-                                  child: (msg
-                                      != null)?
-                                  Text(
-                                    'Placement Message: ' +
-                                        msg.toString(),
-                                    maxLines: 1,
+                                  child: (msg!=null)?
+                                  SizedBox(height: 5):
+                                  SizedBox(height: 0),
+                                ),
+                                Visibility(
+                                    visible: this.toVisiblemsg,
+                                    child: (msg
+                                        != null)?
+                                    Text(
+                                      'Placement Message: ' +
+                                          msg.toString(),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          backgroundColor: this.colorSelectionValue,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal
+                                      ),
+                                    ) : Text('')
+                                ),
+                                SizedBox(height: 5),
+                                Visibility(
+                                  visible: this.toVisible,
+                                  child: (notificationList[index]['notify_identity'])
+                                      == ""
+                                      ? Text(
+                                    'Session Date: ' + notificationList[index]['session_date'],
+                                    maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         color: Colors.black,
                                         backgroundColor: this.colorSelectionValue,
                                         fontSize: 12,
-                                        fontWeight: FontWeight.normal
-                                    ),
-                                  ) : Text('')
-                              ),
-                              SizedBox(height: 5),
-                              Visibility(
-                                visible: this.toVisible,
-                                child: (notificationList[index]['notify_identity'])
-                                    == ""
-                                    ? Text(
-                                  'Session Date: ' + notificationList[index]['session_date'],
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      backgroundColor: this.colorSelectionValue,
-                                      fontSize: 12,
 
-                                  ),
-                                )
-                                    : Text(notificationList[index]['notify_message']),
-                              ),
-                              Visibility(
-                                visible: this.toVisible,
-                                child: SizedBox(height: 5),
-                              ),
-                              Visibility(
+                                    ),
+                                  )
+                                      : Text(notificationList[index]['notify_message']),
+                                ),
+                                Visibility(
                                   visible: this.toVisible,
-                                  child: (notificationList[index]['notify_identity']
-                                      == "")?
-                                  Text(
-                                    'Session Time: ' +
-                                        notificationList[index]['session_fromtime'] +
-                                        " - " +
-                                        notificationList[index]['session_totime'],
+                                  child: SizedBox(height: 5),
+                                ),
+                                Visibility(
+                                    visible: this.toVisible,
+                                    child: (notificationList[index]['notify_identity']
+                                        == "")?
+                                    Text(
+                                      'Session Time: ' +
+                                          notificationList[index]['session_fromtime'] +
+                                          " - " +
+                                          notificationList[index]['session_totime'],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          backgroundColor: this.colorSelectionValue,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal
+                                      ),
+                                    ) : Text('')
+                                ),
+                                Visibility(
+                                  visible: this.toVisible,
+                                  child: (notificationList[index]['notify_identity'] != "")
+                                      ? Text(
+                                    'Message: ' +
+                                        notificationList[index]['notify_message'],
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -294,125 +327,110 @@ class _NotificationClassState extends State<NotificationClass> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.normal
                                     ),
-                                  ) : Text('')
-                              ),
-                              Visibility(
-                                visible: this.toVisible,
-                                child: (notificationList[index]['notify_identity'] != "")
-                                    ? Text(
-                                  'Message: ' +
-                                      notificationList[index]['notify_message'],
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      backgroundColor: this.colorSelectionValue,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal
-                                  ),
-                                ): Text(''),
-                              ),
-                              Visibility(
-                                visible: this.toVisible,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    (notificationList[index]['notify_identity'] == "")?
-                                    Text(
-                                      'Happy with your class on ' +
-                                          notificationList[index]['session_date'] +
-                                          '?',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.normal
-                                      ),
-                                    ): Text(''),
-                                    SizedBox(height: 5),
-                                    Padding(
-                                      padding: EdgeInsets.only(bottom: 10),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                Preference.setNotificationId(Constants.NOTIFICATION_ID,
-                                                    notificationList[index]['_id']);
-                                                notificationYesClickApi();
-                                              });
-                                            },
-                                            child: Card(
-                                              color: Colors.green,
-                                              elevation: 5.0,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(3.0)
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              child: Container(
-                                                margin: EdgeInsets.all(3),
-                                                child: Text(
-                                                  'YES',
-                                                  style: TextStyle(
-                                                      color: Colors.white
-                                                  ),
+                                  ): Text(''),
+                                ),
+                                Visibility(
+                                  visible: this.toVisible,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      (notificationList[index]['notify_identity'] == "")?
+                                      Text(
+                                        'Happy with your class on ' +
+                                            notificationList[index]['session_date'] +
+                                            '?',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.normal
+                                        ),
+                                      ): Text(''),
+                                      SizedBox(height: 5),
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 10),
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  Preference.setNotificationId(Constants.NOTIFICATION_ID,
+                                                      notificationList[index]['_id']);
+                                                  notificationYesClickApi();
+                                                });
+                                              },
+                                              child: Card(
+                                                color: Colors.green,
+                                                elevation: 5.0,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(3.0)
                                                 ),
-                                                padding: EdgeInsets.only(left: 10,right: 10,top: 2,bottom: 2),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                            width: 15,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () async {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          LectureReviewClass(
-                                                              lectureName: notificationList[index]['trainer_name'],
-                                                              courseName: notificationList[index]['course_name'],
-                                                              courseImage: notificationList[index]['course_image'],
-                                                              notification_id: notificationList[index]['_id']
-                                                          )));
-                                              setState(() {});
-                                            },
-                                            child: Card(
-                                              color: Colors.red,
-                                              elevation: 5.0,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(3.0)
-                                              ),
-                                              clipBehavior: Clip.antiAlias,
-                                              child: Container(
-                                                margin: EdgeInsets.all(3),
+                                                clipBehavior: Clip.antiAlias,
                                                 child: Container(
                                                   margin: EdgeInsets.all(3),
                                                   child: Text(
-                                                    'NO',
+                                                    'YES',
                                                     style: TextStyle(
                                                         color: Colors.white
                                                     ),
                                                   ),
-                                                  padding: EdgeInsets.only(top: 2,bottom: 2,left: 10,right: 10),
+                                                  padding: EdgeInsets.only(left: 10,right: 10,top: 2,bottom: 2),
                                                 ),
                                               ),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
+                                            SizedBox(
+                                              height: 10,
+                                              width: 15,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            LectureReviewClass(
+                                                                lectureName: notificationList[index]['trainer_name'],
+                                                                courseName: notificationList[index]['course_name'],
+                                                                courseImage: notificationList[index]['course_image'],
+                                                                notification_id: notificationList[index]['_id']
+                                                            )));
+                                                setState(() {});
+                                              },
+                                              child: Card(
+                                                color: Colors.red,
+                                                elevation: 5.0,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(3.0)
+                                                ),
+                                                clipBehavior: Clip.antiAlias,
+                                                child: Container(
+                                                  margin: EdgeInsets.all(3),
+                                                  child: Container(
+                                                    margin: EdgeInsets.all(3),
+                                                    child: Text(
+                                                      'NO',
+                                                      style: TextStyle(
+                                                          color: Colors.white
+                                                      ),
+                                                    ),
+                                                    padding: EdgeInsets.only(top: 2,bottom: 2,left: 10,right: 10),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
 
-                            ],
-                          )
-                      )
-                    ],
+                              ],
+                            )
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -10,7 +10,7 @@ static const String Free_Enrolled_Course = "course/freeCourseenrollment";
 static const String MOBILE_NUMBER = "mobile-login";
 static const String OTP_RESEND = "resend-mobile-otp";
 static const String Exploure_FREE_COURSE = 'course/free-category-course/';
-static const String BASE_COURSE_URL = "https://app.fitaacademy.in/api/course/";/*"https://fitatest.sitecare.org/api/course/";*/
+static const String BASE_COURSE_URL = /*"https://app.fitaacademy.in/api/course/";*/"https://fitatest.sitecare.org/api/course/";
 static const String Exploure_FREE_COURSE_LIST =
     'course/free-category-courses-list/';
 static const String Exploure_PAID_COURSE_LIST =

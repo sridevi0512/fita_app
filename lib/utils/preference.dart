@@ -25,7 +25,7 @@ static String getFirstName(String firstName, [String? defValue]) {
 }
 static Future<bool> setFirstName(String firstName, String value) async {
     var prefs = await _instance;
-    return prefs?.setString(firstName, value) ?? Future.value(false);
+    return prefs.setString(firstName, value) ?? Future.value(false);
 }
 
 static String getAuthToken(String authToken, [String? defValue]) {
@@ -34,7 +34,7 @@ static String getAuthToken(String authToken, [String? defValue]) {
 
 static Future<bool> setAuthToken(String authToken, String value) async{
     var prefs = await _instance;
-    return prefs?.setString(authToken, value) ?? Future.value(false);
+    return prefs.setString(authToken, value) ?? Future.value(false);
 }
 
   static String getLastName(String lastName, [String? defValue]) {
@@ -43,7 +43,7 @@ static Future<bool> setAuthToken(String authToken, String value) async{
 
   static Future<bool> setLastName(String lastName, String value) async{
     var prefs = await _instance;
-    return prefs?.setString(lastName, value) ?? Future.value(false) ;
+    return prefs.setString(lastName, value) ?? Future.value(false) ;
   }
 
   static bool getEmailVerified(String emailVerified, [String? defValue]) {
@@ -62,7 +62,7 @@ static Future<bool> setAuthToken(String authToken, String value) async{
   static Future<bool> setMobileVerified(
       String mobileVerified, bool value) async {
     var prefs = await _instance;
-    return prefs?.setBool(mobileVerified, value) ?? Future.value(false);
+    return prefs.setBool(mobileVerified, value) ?? Future.value(false);
   }
 
   static String getMobileNumber(String mobileNumber, [String? defvalue]) {
@@ -71,7 +71,7 @@ static Future<bool> setAuthToken(String authToken, String value) async{
 
   static Future<bool> setMobileNumber(String mobileNumber, String value) async {
     var prefs = await _instance;
-    return prefs?.setString(mobileNumber, value) ?? Future.value(false);
+    return prefs.setString(mobileNumber, value) ?? Future.value(false);
   }
 
   static String getFirebaseToken(String firebaseToken, [String? defvalue]) {
@@ -80,7 +80,7 @@ static Future<bool> setAuthToken(String authToken, String value) async{
 
   static Future<bool> setFirebaseToken(String firebaseToken, String value) async {
     var prefs = await _instance;
-    return prefs?.setString(firebaseToken, value) ?? Future.value(false);
+    return prefs.setString(firebaseToken, value) ?? Future.value(false);
   }
 
   static String getEmail(String email, [String? defvalue]) {
@@ -89,7 +89,7 @@ static Future<bool> setAuthToken(String authToken, String value) async{
 
   static Future<bool> setEmail(String email, String value) async {
     var prefs = await _instance;
-    return prefs?.setString(email, value) ?? Future.value(false);
+    return prefs.setString(email, value) ?? Future.value(false);
   }
 
   static String getCourseId(String courseId, [String? defvalue]) {
@@ -98,7 +98,7 @@ static Future<bool> setAuthToken(String authToken, String value) async{
 
   static Future<bool> setCourseId(String courseId, String value) async {
     var prefs = await _instance;
-    return prefs?.setString(courseId, value) ?? Future.value(false);
+    return prefs.setString(courseId, value) ?? Future.value(false);
   }
 
   static String getCourseName(String courseName, [String? defvalue]) {
@@ -107,7 +107,7 @@ static Future<bool> setAuthToken(String authToken, String value) async{
 
   static Future<bool> setCourseName(String courseName, String value) async {
     var prefs = await _instance;
-    return prefs?.setString(courseName, value) ?? Future.value(false);
+    return prefs.setString(courseName, value) ?? Future.value(false);
   }
 
   static String getNotificationId(String notificationId, [String? defvalue]) {
@@ -116,7 +116,7 @@ static Future<bool> setAuthToken(String authToken, String value) async{
 
   static Future<bool> setNotificationId(String notificationId, String value) async {
     var prefs = await _instance;
-    return prefs?.setString(notificationId, value) ?? Future.value(false);
+    return prefs.setString(notificationId, value) ?? Future.value(false);
   }
 
 }
