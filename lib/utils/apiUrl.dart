@@ -16,6 +16,7 @@ static const String Exploure_FREE_COURSE_LIST =
 static const String Exploure_PAID_COURSE_LIST =
     'course/paid-category-courses-list/';
 static const String BATCH_LIST = 'bacth-list';
+static const String MY_COURSE = 'mycourse';
 static const String NOTIFICATION_YES = 'notification-yes';
 static const String NOTIFICATION_LIST = 'notification-list';
 static const String RAISE_CONCERN = 'raise-concern';

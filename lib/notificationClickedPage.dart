@@ -14,7 +14,58 @@ class _NotificationClickedPageState extends State<NotificationClickedPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        
+        body: Container(
+          child:  Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  this.widget.notify_message!,
+                  maxLines: 5,
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: Color(0xff797979),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  "Below are the meeting details: ",
+                  maxLines: 2,
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color(0xff797979),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  this.widget.meet_link!,
+                  maxLines: 2,
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Color(0xff797979),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            ],
+          ),
+        )
       ),
     );
   }

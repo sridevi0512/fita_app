@@ -185,9 +185,11 @@ class _NotificationClassState extends State<NotificationClass> {
                     Navigator.of(context)
                         .push(MaterialPageRoute
                       (builder: (BuildContext context) => NotificationClickedPage(
-                      "meet_link" : link,
-                      "notify_message" : notify_message
-                    )));
+                      meet_link: link,
+                      notify_message: notify_message,
+
+                    )
+                    ));
                   },
                   child: Container(
                     padding: EdgeInsets.all(8),

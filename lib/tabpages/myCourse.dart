@@ -1,4 +1,13 @@
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fita_app/utils/constants.dart';
+import 'package:fita_app/utils/preference.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+
+import '../utils/apiurl.dart';
 
 class MyCourse extends StatefulWidget {
   const MyCourse({Key? key}) : super(key: key);
@@ -8,6 +17,74 @@ class MyCourse extends StatefulWidget {
 }
 
 class _MyCourseState extends State<MyCourse> {
+
+  var myCourseList = [];
+  String isEmptyList = "null";
+
+  Future<String?> getMyCourseList() async{
+    print(ApiUrl.BASE_COURSE_URL + ApiUrl.MY_COURSE);
+
+    final response = await http.get(
+      Uri.parse(ApiUrl.BASE_COURSE_URL + ApiUrl.MY_COURSE),
+      headers: <String,String> {
+        'Content-Type': 'application/json',
+        'Authorization': Preference.getAuthToken(Constants.AUTH_TOKEN),
+      }
+    );
+    try{
+      if(response.statusCode == 200) {
+        var jsonData = jsonDecode(response.body);
+        var data = jsonData['data']['mycoursedata'];
+        print("MyCourse data ==> ${data.toString()}");
+        setState(() {
+          myCourseList = data;
+          if(data.isEmpty){
+            showAlertDialog(context);
+          } else {
+            isEmptyList = "";
+          }
+        });
+      } else {
+        var jsonData1 = jsonDecode(response.body);
+        Fluttertoast.showToast(msg: jsonData1['status']['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM);
+        Navigator.pop(context);
+      }
+    } catch (Exception) {
+      print('Exception: ${Exception.toString()}');
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMyCourseList();
+  }
+
+  showAlertDialog(BuildContext context) {
+    Widget okButton = TextButton(
+        onPressed: (){
+          Navigator.of(context, rootNavigator: true).pop('dialog');
+        },
+        child: Text("Okay")
+    );
+    AlertDialog alert = AlertDialog(
+      content: Text("No data found"),
+      actions: [
+        okButton
+      ],
+    );
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,10 +92,265 @@ class _MyCourseState extends State<MyCourse> {
         title: Text('My Course'),
         automaticallyImplyLeading: false,
       ),
-      body: Container(
-        alignment: Alignment.center,
-        child: Text(
-            "My Course Screen"
+      body:
+      SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "My Courses",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontFamily: "Montserrat"
+                  ),
+                ),
+              ),
+              ListView.separated(
+                itemCount: myCourseList.length,
+                shrinkWrap: true,
+                separatorBuilder: (context,index) {
+                  return Divider(
+                    height: 5,
+                  );
+                },
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index){
+                  return Container(
+                    padding: EdgeInsets.all(8),
+                    child: Card(
+                      elevation: 2.0,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                child: CachedNetworkImage(
+                                  imageUrl: myCourseList[index]['thumbnailimage'],
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height/4,
+                                  fit: BoxFit.fill,
+
+                                  placeholder: (context,url) => Image.asset("images/placeholder_image.jpg",
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height/4,
+                                    fit: BoxFit.fill,),
+
+                                  errorWidget: (context,url,error) => Image.asset("images/placeholder_image.jpg",
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context).size.height/4,
+                                  fit: BoxFit.fill),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Flexible(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      MergeSemantics(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Course Name: ",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Montserrat"
+                                              ),
+                                            ),
+                                            Container(width: 5, height: 5),
+                                            Flexible(
+                                              child:Text(
+                                                myCourseList[index]['course'],
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "Montserrat"
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      MergeSemantics(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Course Schedule: ",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Montserrat"
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Flexible(
+                                              child:Text(
+                                                myCourseList[index]['courseSchedule'], maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "Montserrat"
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      MergeSemantics(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Branch: ",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Montserrat"
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Flexible(
+                                              child:Text(
+                                                myCourseList[index]['branch'],
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "Montserrat"
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      MergeSemantics(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Student Course Status: ",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Montserrat"
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Flexible(
+                                              child:Text(
+                                                  myCourseList[index]['status'],
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "Montserrat"
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      MergeSemantics(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Course Feestype: ",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Montserrat"
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Flexible(
+                                              child:Text(
+                                                myCourseList[index]['coursefeetype'],
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "Montserrat"
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      MergeSemantics(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Course Register Date: ",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Montserrat"
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Flexible(
+                                              child:Text(
+                                                myCourseList[index]['created_at'],
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "Montserrat"
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                    ],
+                                  )
+                              )
+                            ],
+                          ),
+                        ),
+                    ),
+                  );
+                },
+              )
+            ],
+          )
         ),
       ),
 
