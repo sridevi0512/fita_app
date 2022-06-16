@@ -163,7 +163,7 @@ class _RaiseConcernClassState extends State<RaiseConcernClass> {
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 3,
                                       style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.black
                                       ),

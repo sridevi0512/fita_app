@@ -477,6 +477,8 @@ class _CourseVideoClassState extends State<CourseVideoClass> {
   }
 
   Future<String?> freeCourseCompletion() async {
+    print("*****");
+    print("Certificate: ${ApiUrl.BASE_URL_Test + ApiUrl.FREE_COURSE_COMPLETION}");
     final response =
     await http.post(Uri.parse(ApiUrl.BASE_URL_Test + ApiUrl.FREE_COURSE_COMPLETION),
         headers: <String, String>{
@@ -496,6 +498,7 @@ class _CourseVideoClassState extends State<CourseVideoClass> {
       var jsonData = jsonDecode(response.body);
       var data = jsonData['data'];
       var imageURL = data['certificate_url'];
+      print("imageURL: $imageURL");
 
 
       Navigator.push(

@@ -165,6 +165,7 @@ class _courseDetailScreenState extends ResumableState<courseDetailScreen> {
       print('courseCompleted ==> ${data['course_completed'].toString()}');
 
       if(localStore == "exploureFreeCourse") {
+
         this.tagImg = "images/free_tag.png";
         this.enrollTxt = "Learn this Course";
       } else {
@@ -250,6 +251,7 @@ class _courseDetailScreenState extends ResumableState<courseDetailScreen> {
   Widget build(BuildContext context) {
     final fontSize = MediaQuery.of(context).textScaleFactor;
     print("fontSize :" + fontSize.toString());
+    print("localStore: ${localStore== "exploureFreeCourse"}");
     return SafeArea(
 
       child: Scaffold(
@@ -266,7 +268,7 @@ class _courseDetailScreenState extends ResumableState<courseDetailScreen> {
                   // overflow: Overflow.visible,
                   children: [
                     Container(
-                        height: 400,
+                        height: 430,
                         decoration: BoxDecoration(
                             image: DecorationImage(
                               image: ExactAssetImage(
@@ -424,63 +426,41 @@ class _courseDetailScreenState extends ResumableState<courseDetailScreen> {
                                     ],
                                   ),
                                 ),
-
-
-
                               ],
                             ),
-
-
-
                           ],
                         )
                     ),
-                    Positioned(
-                        left: 20,
-                        right: 20,
-                        top: 205,
-                        child:
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.55,
-                          child: Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black38,
-                                        blurRadius: 55,
-                                        offset: const Offset(0, 30)
-                                    ),
-                                  ],
-                                ),
-                                margin: const EdgeInsets.only(bottom: 8),
-                                width: MediaQuery.of(context).size.width * 0.95,
-                                height: 250,
-                                child: this.playingThumbimg,
-                              ),
-                            ],
-                          ),
-                        )
-                    ),
-                    (localStore == "exploureFreeCourse")?
-                    Positioned(
-                      bottom: -80,
-                      left: 25,
-                      child: Container(
-                        height: 60,
-                        width: 60,
 
-                        child: new Image.asset(
-                          (localStore == "exploureFreeCourse")?
-                          "images/free_tag.png" : "",
-                          width: 16.0,
-                          height: 16.0,
-                          fit: BoxFit.contain,
+                    Positioned(
+                      left: 20,
+                      right: 20,
+                      top: 205,
+                      child:
+                      Container(
+                        // height: MediaQuery.of(context).size.height * 0.2,
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black38,
+                                      blurRadius: 55,
+                                      offset: const Offset(0, 30)
+                                  ),
+                                ],
+                              ),
+                              margin: const EdgeInsets.only(bottom: 8),
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              height: MediaQuery.of(context).size.width * 0.58,
+                              child: this.playingThumbimg,
+                            ),
+                          ],
                         ),
                       ),
-                    ):
-                    Container(),
+                    ),
+
                     Positioned(
                         bottom: 10,
                         child: Container(
@@ -506,11 +486,28 @@ class _courseDetailScreenState extends ResumableState<courseDetailScreen> {
                           ),
                         )
                     ),
+                    (localStore == "exploureFreeCourse")?
+                    Positioned(
+                      bottom: -80,
+                      left: 25,
+                      child: Container(
+                        height: 60,
+                        width: 60,
+
+                        child: new Image.asset(
+                          "images/free_tag2.png",
+                          /*width: 16.0,
+                          height: 16.0,*/
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ):
+                    Container(),
                   ],
                 ),
 
                 SizedBox(
-                  height: 100,
+                  height: 80,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.95,

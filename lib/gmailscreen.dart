@@ -44,7 +44,7 @@ class _GmailScreenState extends State<GmailScreen> {
     print("uid:${currentUser.uid}");
     print("phonenumber: ${currentUser.phoneNumber}");
     print('first name:${currentUser.displayName!.split(" ")[0].toString()}');
-    print('last name: ${currentUser.displayName!.split(" ")[1].toString()}');
+    // print('last name: ${currentUser.displayName!.split(" ")[1].toString()}');
     print('photourl:${currentUser.photoURL}');
 
     Navigator.pop(context);
@@ -53,7 +53,7 @@ class _GmailScreenState extends State<GmailScreen> {
           return RegisterScreen(
             userId: widget.userId,
             firstName: currentUser.displayName!.split(" ")[0].toString(),
-            lastName: currentUser.displayName!.split(" ")[1].toString(),
+            lastName: (currentUser.displayName!.contains(" "))?currentUser.displayName!.split(" ")[1].toString(): "",
             email: currentUser.email.toString(),
             token: Preference.getAuthToken(Constants.AUTH_TOKEN),
             auth: "gmail",

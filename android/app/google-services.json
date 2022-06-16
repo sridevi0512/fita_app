@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "934356910219-tkc0f65br8hh8jn67fp51s12df6oh1ph.apps.googleusercontent.com",
+          "client_id": "934356910219-sljh39qfhg4s2dp82auujjortv2i5n0t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.fitaApp",
-            "certificate_hash": "7e7fabc9f5826ce217d1f43f615af11772d64833"
+            "certificate_hash": "86538eca0a0672ae718803dfb4b32a62ae2528e5"
           }
         },
         {
@@ -37,6 +37,13 @@
             {
               "client_id": "934356910219-krj2tc9vb5m4rmpcs56gcb7n21v57k72.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "934356910219-h63clj4ep0pdci2g8ca6tkhegr04qh38.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.develop.TestOne"
+              }
             }
           ]
         }

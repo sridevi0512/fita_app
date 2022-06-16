@@ -1,8 +1,8 @@
 class ApiUrl{
 
-static const String BASE_URL =/*"https://app.fitaacademy.in/api/users/"*/"https://fitatest.sitecare.org/api/users/";
-static const String BASE_URL_Test = /*"https://app.fitaacademy.in/api/"*/"https://fitatest.sitecare.org/api/";
-static const String BASE_URL_Test1 = /*"https://app.fitaacademy.in/api/"*/"https://fitatest.sitecare.org/api/";
+static const String BASE_URL ="https://app.fitaacademy.in/api/users/"/*"https://fitatest.sitecare.org/api/users/"*/;
+static const String BASE_URL_Test = "https://app.fitaacademy.in/api/"/*"https://fitatest.sitecare.org/api/"*/;
+static const String BASE_URL_Test1 = "https://app.fitaacademy.in/api/"/*"https://fitatest.sitecare.org/api/"*/;
 static const String BASE_CERTIFICATION_URL =
     "https://fitadev.s3.us-east-1.amazonaws.com/";
 static const String COURSE_DETAIL = "course/course-detail/";
@@ -10,7 +10,7 @@ static const String Free_Enrolled_Course = "course/freeCourseenrollment";
 static const String MOBILE_NUMBER = "mobile-login";
 static const String OTP_RESEND = "resend-mobile-otp";
 static const String Exploure_FREE_COURSE = 'course/free-category-course/';
-static const String BASE_COURSE_URL = /*"https://app.fitaacademy.in/api/course/";*/"https://fitatest.sitecare.org/api/course/";
+static const String BASE_COURSE_URL = "https://app.fitaacademy.in/api/course/"/*"https://fitatest.sitecare.org/api/course/"*/;
 static const String Exploure_FREE_COURSE_LIST =
     'course/free-category-courses-list/';
 static const String Exploure_PAID_COURSE_LIST =
@@ -43,3 +43,4 @@ static const String UPDATE_USER_NAME = 'updateusername';
 static const String LOGOUT = 'logoff';
 
 }
+

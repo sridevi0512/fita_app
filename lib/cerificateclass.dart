@@ -76,6 +76,11 @@ class _CertificationClassState extends State<CertificationClass> {
   }
 
   Future<String?> exploreFreeCourseApiResponse() async {
+    print("certificate_Url: ${ApiUrl.BASE_URL_Test +
+        ApiUrl.CERTIFICATE +
+        Preference.getCourseId(Constants.COURSE_ID) +
+        '/' +
+        Preference.getUserId(Constants.USER_ID)}");
     print(ApiUrl.BASE_URL_Test +
         ApiUrl.CERTIFICATE +
         Preference.getCourseId(Constants.COURSE_ID) +
@@ -96,6 +101,7 @@ class _CertificationClassState extends State<CertificationClass> {
     );
     print('COURSE ID ${Preference.getCourseId(Constants.COURSE_ID)}');
     print('USER ID ${Preference.getUserId(Constants.USER_ID)}');
+    print('GET TOKEN ${Preference.getAuthToken(Constants.AUTH_TOKEN)}');
 
     if(response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);

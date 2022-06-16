@@ -122,228 +122,383 @@ class _MyCourseState extends State<MyCourse> {
                 physics: BouncingScrollPhysics(),
                 itemBuilder: (BuildContext context, int index){
                   return Container(
-                    padding: EdgeInsets.all(8),
                     child: Card(
                       elevation: 2.0,
-                        child: Container(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                child: CachedNetworkImage(
-                                  imageUrl: myCourseList[index]['thumbnailimage'],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              child: CachedNetworkImage(
+                                imageUrl: myCourseList[index]['thumbnailimage'],
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height/4,
+                                fit: BoxFit.fill,
+
+                                placeholder: (context,url) => Image.asset("images/placeholder_image.jpg",
                                   width: MediaQuery.of(context).size.width,
                                   height: MediaQuery.of(context).size.height/4,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.fill,),
 
-                                  placeholder: (context,url) => Image.asset("images/placeholder_image.jpg",
+                                errorWidget: (context,url,error) => Image.asset("images/placeholder_image.jpg",
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height/4,
-                                    fit: BoxFit.fill,),
-
-                                  errorWidget: (context,url,error) => Image.asset("images/placeholder_image.jpg",
-                                      width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height/4,
-                                  fit: BoxFit.fill),
-                                ),
+                                fit: BoxFit.fill),
                               ),
-                              SizedBox(height: 10),
-                              Flexible(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      MergeSemantics(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Course Name: ",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Montserrat"
-                                              ),
-                                            ),
-                                            Container(width: 5, height: 5),
-                                            Flexible(
-                                              child:Text(
-                                                myCourseList[index]['course'],
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: true,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Montserrat"
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                            ),
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  (myCourseList[index]['course'].toString().length <= 20)?
+                                  MergeSemantics(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Course Name: ",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      MergeSemantics(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Course Schedule: ",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Montserrat"
-                                              ),
+                                        SizedBox(width: 5, height: 5),
+                                        Flexible(
+                                          child:Text(
+                                            myCourseList[index]['course'],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
                                             ),
-                                            SizedBox(width: 5),
-                                            Flexible(
-                                              child:Text(
-                                                myCourseList[index]['courseSchedule'], maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: true,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Montserrat"
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ):
+                                  MergeSemantics(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Course Name: ",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      MergeSemantics(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Branch: ",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Montserrat"
-                                              ),
+                                        SizedBox(height: 8),
+                                        Flexible(
+                                          child:Text(
+                                            myCourseList[index]['course'],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
                                             ),
-                                            SizedBox(width: 5),
-                                            Flexible(
-                                              child:Text(
-                                                myCourseList[index]['branch'],
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: true,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Montserrat"
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  MergeSemantics(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Course Schedule: ",
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      MergeSemantics(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Student Course Status: ",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Montserrat"
-                                              ),
+                                        SizedBox(width: 5),
+                                        Flexible(
+                                          child:Text(
+                                            myCourseList[index]['courseSchedule'],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
                                             ),
-                                            SizedBox(width: 5),
-                                            Flexible(
-                                              child:Text(
-                                                  myCourseList[index]['status'],
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: true,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Montserrat"
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  (myCourseList[index]['branch'].toString() == "")?
+                                      Container():
+                                  MergeSemantics(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Branch: ",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      MergeSemantics(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Course Feestype: ",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Montserrat"
-                                              ),
+                                        SizedBox(width: 5),
+                                        Flexible(
+                                          child:Text(
+                                            myCourseList[index]['branch'],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
                                             ),
-                                            SizedBox(width: 5),
-                                            Flexible(
-                                              child:Text(
-                                                myCourseList[index]['coursefeetype'],
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: true,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Montserrat"
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  (myCourseList[index]['status'].toString().length <= 4)?
+                                  MergeSemantics(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Student Course Status: ",
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      MergeSemantics(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Course Register Date: ",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Montserrat"
-                                              ),
+                                        SizedBox(width: 5),
+                                        Flexible(
+                                          child:Text(
+                                              myCourseList[index]['status'],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
                                             ),
-                                            SizedBox(width: 5),
-                                            Flexible(
-                                              child:Text(
-                                                myCourseList[index]['created_at'],
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: true,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Montserrat"
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ):
+                                  MergeSemantics(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "Student Course Status: ",
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                    ],
-                                  )
-                              )
-                            ],
-                          ),
+                                        SizedBox(height: 8),
+                                        Flexible(
+                                          child:Text(
+                                            myCourseList[index]['status'],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  (myCourseList[index]['coursefeetype'].toString() == 'Classroom')?
+                                  MergeSemantics(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Course Feestype: ",
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Flexible(
+                                          child:Text(
+                                            myCourseList[index]['coursefeetype'],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ):
+                                  MergeSemantics(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Course Feestype: ",
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Flexible(
+                                          child:Text(
+                                            myCourseList[index]['coursefeetype'],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  (myCourseList[index]['created_at'].toString().length <=10) ?
+                                  MergeSemantics(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Course Register Date: ",
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Flexible(
+                                          child:Text(
+                                            myCourseList[index]['created_at'],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ):
+                                  MergeSemantics(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "Course Register Date: ",
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat"
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Flexible(
+                                          child:Text(
+                                            myCourseList[index]['created_at'],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Montserrat"
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                     ),
                   );

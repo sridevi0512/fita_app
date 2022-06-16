@@ -18,7 +18,7 @@ import 'package:isolated_worker/isolated_worker.dart';
 import 'package:isolated_worker/js_isolated_worker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-// import 'package:share_plus/share_plus.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MyCertificate extends StatefulWidget {
   const MyCertificate({Key? key}) : super(key: key);
@@ -302,7 +302,7 @@ class _MyCertificateState extends State<MyCertificate> {
                                               imgFile.writeAsBytesSync(response.bodyBytes);
                                               print(documentDirectory);
                                               imagePaths.add(documentDirectory.path + '/flutter.png');
-                                              // await Share.shareFiles(imagePaths);
+                                              await Share.shareFiles(imagePaths);
                                             }catch(Exception){
                                               print(Exception);
                                             }
