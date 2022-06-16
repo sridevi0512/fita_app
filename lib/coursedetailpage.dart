@@ -265,7 +265,7 @@ class _courseDetailScreenState extends ResumableState<courseDetailScreen> {
               children: [
                 Stack(
                   alignment: Alignment.bottomCenter,
-                  // overflow: Overflow.visible,
+                  clipBehavior: Clip.antiAlias,
                   children: [
                     Container(
                         height: 430,
@@ -435,7 +435,7 @@ class _courseDetailScreenState extends ResumableState<courseDetailScreen> {
                     Positioned(
                       left: 20,
                       right: 20,
-                      top: 205,
+                      top: 190,
                       child:
                       Container(
                         // height: MediaQuery.of(context).size.height * 0.2,
@@ -488,21 +488,25 @@ class _courseDetailScreenState extends ResumableState<courseDetailScreen> {
                     ),
                     (localStore == "exploureFreeCourse")?
                     Positioned(
-                      bottom: -80,
-                      left: 25,
-                      child: Container(
-                        height: 60,
-                        width: 60,
+                      bottom: 10,
+                      left: 10,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          height: 60,
+                          width: 60,
 
-                        child: new Image.asset(
-                          "images/free_tag2.png",
-                          /*width: 16.0,
-                          height: 16.0,*/
-                          fit: BoxFit.contain,
+                          child: new Image.asset(
+                            "images/free_tag2.png",
+                            /*width: 16.0,
+                            height: 16.0,*/
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ):
                     Container(),
+
                   ],
                 ),
 
